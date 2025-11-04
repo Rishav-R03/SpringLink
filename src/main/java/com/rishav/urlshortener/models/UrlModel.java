@@ -1,12 +1,19 @@
 package com.rishav.urlshortener.models;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+
+@Getter
 @Entity
+@AllArgsConstructor
 @Table(name="url_mappings")
+@Builder
 public class UrlModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,27 +41,21 @@ public class UrlModel {
         this.createdAt = createdAt;
         this.expiryDate = expiryDate;
     }
-    public Long getId(){
-        return Id;
-    }
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserModel user;
     public void setLongUrl(String longUrl){
         this.longUrl = longUrl;
     }
 
-    public String getLongUrl(){
-        return longUrl;
-    }
-    public String getShortKey() {
-        return shortKey;
-    }
     public void setShortKey(String shortKey) {
         this.shortKey = shortKey;
     }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getExpiryDate() { return expiryDate; }
+
     public void setExpiryDate(LocalDateTime expiryDate) { this.expiryDate = expiryDate; }
-    public int getClickCount() { return clickCount; }
+
     public void setClickCount(int clickCount) { this.clickCount = clickCount; }
 }

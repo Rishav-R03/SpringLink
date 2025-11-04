@@ -3,10 +3,11 @@ package com.rishav.urlshortener.controller;
 import com.rishav.urlshortener.DTO.UrlRequest;
 import com.rishav.urlshortener.DTO.UrlResponse;
 import com.rishav.urlshortener.services.UrlService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RestController// @Controller + @ResponseBody
@@ -23,10 +24,10 @@ public class UrlController {
         return "Hello World";
     }
     @PostMapping("/shorten")
-    public ResponseEntity<UrlResponse> shortenUrl(@RequestBody UrlRequest request){
-//        logger.info("Received URL: {}");
-        UrlResponse response = urlService.createShortUrl(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<UrlResponse> shortenUrl(@RequestBody UrlRequest urlRequest, Principal principal){
+        String username= principal.getName();
+        UrlResponse shortUrlResponse = urlService.createShortUrl(urlRequest,username);
+        return ResponseEntity.ok(shortUrlResponse);
     }
 
 }
